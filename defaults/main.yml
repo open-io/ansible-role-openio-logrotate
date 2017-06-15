@@ -1,0 +1,82 @@
+---
+# defaults file for ansible-role-openio-logrotate
+# Enable or disable management of /etc/logrotate.conf file (disabled by default).
+logrotate__enabled: False
+logrotate__default_options: |
+  # see "man logrotate" for details
+  # rotate log files weekly
+  weekly
+
+  # keep 4 weeks worth of backlogs
+  rotate 4
+
+  # create new (empty) log files after rotating old ones
+  create
+
+  # use date as a suffix of the rotated file
+  dateext
+
+  # uncomment this if you want your log files compressed
+  #compress
+
+  # Specs rotation information into this directory
+  include /etc/logrotate.d
+
+  # no packages own wtmp and btmp -- we ll rotate them here
+
+logrotate__default_config:
+  - logs:   'var/log/wtmp'
+    options: |
+      monthly
+      create 0664 root utmp
+      minsize 1M
+      rotate 1
+
+  - logs: '/var/log/btmp'
+    options: |
+      missingok
+      monthly
+      create 0600 root utmp
+      rotate 1
+
+logrotate__config:
+  - filename: openio-sds
+    sections:
+    - logs:  [ '/var/log/oio/sds/*/*/rawx*-httpd*.log' ]
+      options: | 
+        copytruncate
+        nodateext
+        missingok
+        notifempty
+        daily
+        maxsize 50M
+        rotate 5
+        compress
+        delaycompress
+        sharedscripts
+      postrotate: '/bin/kill -s USR1 `cat /run/oio/sds/*-rawx*-httpd*.pid /run/oio/sds/*-ecd*-httpd*.pid` 2> /dev/null || true'
+     
+    - logs: [ '/var/log/oio/sds/*/*/oio-blob-indexer-*.log  /var/log/oio/sds/*/*/conscience*.log /var/log/oio/sds/*/*/conscience*.access /var/log/oio/sds/*/*/meta*.log /var/log/oio/sds/*/*/meta*.access /var/log/oio/sds/*/*/oioproxy*.log /var/log/oio/sds/*/*/oioproxy*.access /var/log/oio/sds/*/*/account*.log /var/log/oio/sds/*/*/account*.access /var/log/oio/sds/*/*/oio-event-agent*.log /var/log/oio/sds/*/*/rdir*.log /var/log/oio/sds/*/*/rdir*.access /var/log/oio/sds/*/*/oioswift*.log /var/log/oio/sds/*/*/replicator*.access /var/log/oio/sds/*/*/replicator*.log' ]
+      options: |
+        nodateext
+        missingok
+        notifempty
+        daily
+        maxsize 100M
+        rotate 5
+        compress
+        delaycompress
+        sharedscripts
+      postrotate: '/bin/kill -HUP `cat /run/*syslogd.pid 2> /dev/null` 2> /dev/null || true'
+
+  - filename: gridinit.conf 
+    sections:
+    - logs: [ '/var/log/gridinit/gridinit.log' ]
+      options: |
+        missingok
+        notifempty
+        daily
+        rotate 14
+        compress
+        sharedscripts
+      postrotate: '/bin/kill -HUP `cat /var/run/*syslogd.pid 2> /dev/null` 2> /dev/null || true'
