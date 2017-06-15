@@ -1,0 +1,6 @@
+- name: install logrotate (apt)
+  apt:
+    name: logrotate
+    state: present
+  notify:
+    - restart logrotate

@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Lapierre Sebastien
+  description: Provide a logrotation file for OpenIO SDS 
+  company: OpenIO
+
+  license: Apache 2.0 
+
+  min_ansible_version: 2.2
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - xenial
+  - name: Debian
+    versions:
+    - jessie
+  - name: CentOS
+    versions:
+    - 7
+
+  categories:
+  - system
