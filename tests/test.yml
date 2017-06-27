@@ -1,10 +1,4 @@
 ---
 - hosts: localhost
   roles:
-    - { role: ansible-role-openio-logrotate }
-
-#- name: Install and configure logrotate for OpenIO
-#  hosts: scalair_all
-#  roles:
-#    #- { role: ansible-role-openio-logrotate, logrotate__enabled: True }
-#    - { role: ansible-role-openio-logrotate }
+    - { role: openio-logrotate }
