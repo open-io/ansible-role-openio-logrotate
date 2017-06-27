@@ -1,8 +1,8 @@
-{% if logrotate__default_options %}
-{{ logrotate__default_options }}
+{% if logrotate_default_options %}
+{{ logrotate_default_options }}
 {% endif %}
-{% if logrotate__default_options %}
-{{ logrotate__default_options }}
+{% if logrotate_default_options %}
+{{ logrotate_default_options }}
 {% endif %}
 {% macro print_config(section) %}
 {%   if section.state is undefined or section.state != 'absent' %}
@@ -68,7 +68,7 @@
 {%   endif %}
 
 {% endmacro %}
-{% for item in logrotate__default_config %}
+{% for item in logrotate_default_config %}
 {%   if item.sections|d() %}
 {%     for section in item.sections %}
 {{ print_config(section) -}}

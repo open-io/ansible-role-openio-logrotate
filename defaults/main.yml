@@ -1,8 +1,8 @@
 ---
 # defaults file for ansible-role-openio-logrotate
 # Enable or disable management of /etc/logrotate.conf file (disabled by default).
-logrotate__enabled: False
-logrotate__default_options: |
+logrotate_enabled: False
+logrotate_default_options: |
   # see "man logrotate" for details
   # rotate log files weekly
   weekly
@@ -24,7 +24,7 @@ logrotate__default_options: |
 
   # no packages own wtmp and btmp -- we ll rotate them here
 
-logrotate__default_config:
+logrotate_default_config:
   - logs:   'var/log/wtmp'
     options: |
       monthly
@@ -39,7 +39,7 @@ logrotate__default_config:
       create 0600 root utmp
       rotate 1
 
-logrotate__config:
+logrotate_config:
   - filename: openio-sds
     sections:
     - logs:  [ '/var/log/oio/sds/*/*/rawx*-httpd*.log' ]

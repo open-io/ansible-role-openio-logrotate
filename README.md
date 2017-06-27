@@ -51,7 +51,7 @@ And the second that manage /etc/logrotate.conf too:
 - name: Install and configure logrotate for OpenIO
   hosts: servers
   roles:
-    - { role: ansible-role-openio-logrotate, logrotate__enabled: True }
+    - { role: ansible-role-openio-logrotate, logrotate_enabled: True }
 ```
 
 
